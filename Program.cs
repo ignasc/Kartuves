@@ -6,6 +6,7 @@ namespace Kartuves
     class Program
     {
         static void Main(string[] args) {
+            Console.Clear();
 
             List<string> zodziuSarasas = new List<string>() { "namas", "mama", "plaktukas" };
             string spejamasZodis;
@@ -29,24 +30,30 @@ namespace Kartuves
 
             //----------Game Begins----------
             do {
-                Meniu(spejamasZodis, jauAtspetosRaides);
+                Meniu(spejamasZodis, jauAtspetosRaides, ref bandymuSkaicius);
 
                 tavoSpejimas = Console.ReadLine();
+                Console.Clear();//Clear console screen
 
 
-                spejimoRezultatas = TikrinamSpejima(spejamasZodis, jauAtspetosRaides, tavoSpejimas);
+                spejimoRezultatas = TikrinamSpejima(spejamasZodis, jauAtspetosRaides, tavoSpejimas.ToUpper(), ref bandymuSkaicius);
                 Console.WriteLine(spejimoRezultatas);
 
-                //DEBUG - stabdom zaidima kolkas is karto
-                zaidimasZaidziamas = false;
+                //Tikrinam galutines zaidimo salygas (dar nepilnos)
+                Console.WriteLine("Tikrinam galutines zaidimo salygas");
+                Console.WriteLine( jauAtspetosRaides.Equals(spejamasZodis) );
+                if (bandymuSkaicius == 0 || zodisAtspetas == true) {
+                    zaidimasZaidziamas = false;
+                    Console.WriteLine("Zaidimas baigas");
+                }
             } while (zaidimasZaidziamas);
 
             //--------------------------MAIN ENDS--------------------------
         }
 
-        static void Meniu(string spejamasZodis, List<char> jauAtspetosRaides) {
+        static void Meniu(string spejamasZodis, List<char> jauAtspetosRaides, ref int bandymuSkaicius) {
             Console.WriteLine("----------Atspek Zodi----------");
-            Console.WriteLine("DEBUG: " + spejamasZodis);
+            Console.WriteLine("DEBUG: " + spejamasZodis + " ,Liko bandymu: " + bandymuSkaicius);
             for (int i = 0; i < jauAtspetosRaides.Count; i++) {
                 Console.Write(jauAtspetosRaides[i] + " ");
             }
@@ -55,24 +62,31 @@ namespace Kartuves
         }
         static string GenerateRandomWord(List<string> zodziuSarasas) {
             Random skaicius = new Random();
-            return zodziuSarasas[skaicius.Next(0, zodziuSarasas.Count)];
+            return zodziuSarasas[skaicius.Next(0, zodziuSarasas.Count)].ToUpper();
         }
 
-        static int TikrinamSpejima(string spejamasZodis, List<char> jauAtspetosRaides, string tavoSpejimas) {
+        static void TikrinamSpejima(string spejamasZodis, List<char> jauAtspetosRaides, string tavoSpejimas, ref int bandymuSkaicius) {
             // 1 - spejom raide
             // 2 - spejom zodi
             // 3 - netinkamas zodzio ilgis
             if (tavoSpejimas.Length == 1) {
-                Console.WriteLine("Spejai raide: " + tavoSpejimas);
-                return 1;
+                char zodzioRaide= tavoSpejimas.ToCharArray()[0];
+
+                for (int i = 0; i < jauAtspetosRaides.Count; i++) {
+                    
+                    if (zodzioRaide == spejamasZodis[i]) {
+                        jauAtspetosRaides[i] = zodzioRaide;
+                    }
+                }
+
+                bandymuSkaicius--;
             }
             else if (tavoSpejimas.Length > 1 && tavoSpejimas.Length == spejamasZodis.Length) {
                 Console.WriteLine("Spejai zodi: " + tavoSpejimas);
-                return 2;
+                bandymuSkaicius = 0;
             }
             else {
                 Console.WriteLine("Per trumpas zodis, bandyk dar karta.");
-                return 3;
             }
         }
 
