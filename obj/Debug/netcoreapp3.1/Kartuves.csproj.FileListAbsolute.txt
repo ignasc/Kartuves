@@ -1,0 +1,13 @@
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\bin\Debug\netcoreapp3.1\Kartuves.exe
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\bin\Debug\netcoreapp3.1\Kartuves.deps.json
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\bin\Debug\netcoreapp3.1\Kartuves.runtimeconfig.json
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\bin\Debug\netcoreapp3.1\Kartuves.runtimeconfig.dev.json
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\bin\Debug\netcoreapp3.1\Kartuves.dll
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\bin\Debug\netcoreapp3.1\Kartuves.pdb
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\obj\Debug\netcoreapp3.1\Kartuves.csprojAssemblyReference.cache
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\obj\Debug\netcoreapp3.1\Kartuves.AssemblyInfoInputs.cache
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\obj\Debug\netcoreapp3.1\Kartuves.AssemblyInfo.cs
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\obj\Debug\netcoreapp3.1\Kartuves.csproj.CoreCompileInputs.cache
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\obj\Debug\netcoreapp3.1\Kartuves.dll
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\obj\Debug\netcoreapp3.1\Kartuves.pdb
+H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\obj\Debug\netcoreapp3.1\Kartuves.genruntimeconfig.cache
