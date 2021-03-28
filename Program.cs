@@ -6,21 +6,36 @@ namespace Kartuves
     class Program
     {
         static void Main(string[] args) {
+
+            //ZodziuKonvertavimas();
+
+
             Console.Clear();
 
-            List<string> zodziuSarasas = new List<string>() { "namas", "mama", "medis" };
+            string[] zodziuSarasas;
             string spejamasZodis;
             string tavoSpejimas;
-            int bandymuSkaicius = 5;
+
+            int bandymuSkaicius = 15;
 
             bool zodisAtspetas = false;
             bool zaidimasZaidziamas = true;
 
             List<char> jauAtspetosRaides = new List<char>();
-            
+
             //-----Pradines zaidimo salygos-----
+
+            //Nuskaitom faila su zodziais
+            if (!System.IO.File.Exists("zodziai.txt")) {
+                Console.WriteLine("KLAIDA: failas \"zodziai.txt\" nerastas!");
+                return;
+            }
+            else {
+                zodziuSarasas = System.IO.File.ReadAllLines("zodziai.txt");
+            }//Failo skaitymo pabaiga
+
             spejamasZodis = GenerateRandomWord(zodziuSarasas);
-            Console.WriteLine("Debug: " + spejamasZodis);
+            //Console.WriteLine("Debug: " + spejamasZodis);
 
             //Generate _ symbols
             for(int i = 0; i < spejamasZodis.Length; i++) {
@@ -50,20 +65,21 @@ namespace Kartuves
 
         static void Meniu(string spejamasZodis, List<char> jauAtspetosRaides, ref int bandymuSkaicius) {
             Console.WriteLine("----------Atspek Zodi----------");
-            Console.WriteLine("DEBUG: " + spejamasZodis + " ,Liko bandymu: " + bandymuSkaicius);
+            Console.WriteLine("Liko bandymu: " + bandymuSkaicius);
             for (int i = 0; i < jauAtspetosRaides.Count; i++) {
                 Console.Write(jauAtspetosRaides[i] + " ");
             }
             Console.WriteLine();//New Line
             Console.Write("Tavo spejimas: ");
         }
-        static string GenerateRandomWord(List<string> zodziuSarasas) {
+
+        static string GenerateRandomWord(string[] zodziuSarasas) {
             Random skaicius = new Random();
-            return zodziuSarasas[skaicius.Next(0, zodziuSarasas.Count)].ToUpper();
+            return zodziuSarasas[skaicius.Next(0, zodziuSarasas.Length)].ToUpper();
         }
 
         static void TikrinamSpejima(string spejamasZodis, List<char> jauAtspetosRaides, string tavoSpejimas, ref int bandymuSkaicius) {
-            if (tavoSpejimas.Length == 1) {
+            if (tavoSpejimas.Length == 1) {//Spejama vienta raide
                 char zodzioRaide = tavoSpejimas.ToCharArray()[0];
 
                 for (int i = 0; i < jauAtspetosRaides.Count; i++) {
@@ -75,11 +91,16 @@ namespace Kartuves
 
                 bandymuSkaicius--;
             }
-            else if (tavoSpejimas.Length > 1 && tavoSpejimas.Length == spejamasZodis.Length) {
-                Console.WriteLine("Spejai zodi: " + tavoSpejimas);
+            else if (tavoSpejimas.Length > 1 && tavoSpejimas.Length == spejamasZodis.Length) {//Spejamas visas zodis
+                char[] tavoSpejimoRaide = tavoSpejimas.ToCharArray();
+                
+                for (int i = 0; i < jauAtspetosRaides.Count; i++) {
+                    jauAtspetosRaides[i] = tavoSpejimoRaide[i];
+                }
+
                 bandymuSkaicius = 0;
             }
-            else {
+            else {//Netinkamas zodzio ilgis
                 Console.WriteLine("Per trumpas zodis, bandyk dar karta.");
             }
         }
@@ -124,6 +145,44 @@ namespace Kartuves
 
 
         }
+
+        /*static void ZodziuKonvertavimas() {
+
+        //Cia purvinas kodas, greitai reikejo pakeisti lietuviskas raides, kad nereiktu ju naudoti zaidime...
+
+            string[] zodziuSarasas = System.IO.File.ReadAllLines(@"H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\visasSarasas.txt");
+            char[] blogosRaides = { 'ą', 'č', 'ę', 'ė', 'į', 'š', 'ų', 'ū', 'ž' };
+            char[] gerosRaides = { 'a', 'c', 'e', 'e', 'i', 's', 'u', 'u', 'z' };
+            string[] naujasZodziuSarasas = new string[zodziuSarasas.Length];
+            string naujasZodis;
+            bool raideYraBloga = false;
+
+            for (int i = 0; i < zodziuSarasas.Length; i++) {//Imam kiekviena zodi masyve
+                naujasZodis = "";
+                
+                foreach (char tikrinamaRaide in zodziuSarasas[i]) {//Imam kiekvieno masyve esancio zodzio raide
+                    raideYraBloga = false;
+                    for (int j = 0; j < blogosRaides.Length; j++) {//Imam kiekviena lietuviska raide tikrinimui
+                        
+                        if (tikrinamaRaide == blogosRaides[j]) {//Pagaliau, lyginimas...
+
+                            naujasZodis = naujasZodis + gerosRaides[j];
+                            raideYraBloga = true;
+                            continue;
+                        }
+                    }
+
+                    if (!raideYraBloga) {
+                        naujasZodis = naujasZodis + tikrinamaRaide;
+                    }
+                }
+
+                naujasZodziuSarasas[i] = naujasZodis;
+            }
+
+            System.IO.File.WriteAllLines("sutvarkytasSarasas.txt",naujasZodziuSarasas);
+
+        }*/
 
 
 
