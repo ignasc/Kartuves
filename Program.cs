@@ -8,10 +8,9 @@ namespace Kartuves
         static void Main(string[] args) {
             Console.Clear();
 
-            List<string> zodziuSarasas = new List<string>() { "namas", "mama", "plaktukas" };
+            List<string> zodziuSarasas = new List<string>() { "namas", "mama", "medis" };
             string spejamasZodis;
             string tavoSpejimas;
-            int spejimoRezultatas;
             int bandymuSkaicius = 5;
 
             bool zodisAtspetas = false;
@@ -21,7 +20,7 @@ namespace Kartuves
             
             //-----Pradines zaidimo salygos-----
             spejamasZodis = GenerateRandomWord(zodziuSarasas);
-            Console.WriteLine(spejamasZodis);
+            Console.WriteLine("Debug: " + spejamasZodis);
 
             //Generate _ symbols
             for(int i = 0; i < spejamasZodis.Length; i++) {
@@ -36,15 +35,13 @@ namespace Kartuves
                 Console.Clear();//Clear console screen
 
 
-                spejimoRezultatas = TikrinamSpejima(spejamasZodis, jauAtspetosRaides, tavoSpejimas.ToUpper(), ref bandymuSkaicius);
-                Console.WriteLine(spejimoRezultatas);
+                TikrinamSpejima(spejamasZodis, jauAtspetosRaides, tavoSpejimas.ToUpper(), ref bandymuSkaicius);
+
 
                 //Tikrinam galutines zaidimo salygas (dar nepilnos)
-                Console.WriteLine("Tikrinam galutines zaidimo salygas");
-                Console.WriteLine( jauAtspetosRaides.Equals(spejamasZodis) );
+                TikrinamGalutinesZaidimoSalygas(ref zodisAtspetas, ref zaidimasZaidziamas, ref jauAtspetosRaides, ref spejamasZodis, ref bandymuSkaicius);
                 if (bandymuSkaicius == 0 || zodisAtspetas == true) {
-                    zaidimasZaidziamas = false;
-                    Console.WriteLine("Zaidimas baigas");
+                    ZaidimoPabaiga(ref zodisAtspetas, jauAtspetosRaides, ref spejamasZodis, ref bandymuSkaicius);
                 }
             } while (zaidimasZaidziamas);
 
@@ -66,11 +63,8 @@ namespace Kartuves
         }
 
         static void TikrinamSpejima(string spejamasZodis, List<char> jauAtspetosRaides, string tavoSpejimas, ref int bandymuSkaicius) {
-            // 1 - spejom raide
-            // 2 - spejom zodi
-            // 3 - netinkamas zodzio ilgis
             if (tavoSpejimas.Length == 1) {
-                char zodzioRaide= tavoSpejimas.ToCharArray()[0];
+                char zodzioRaide = tavoSpejimas.ToCharArray()[0];
 
                 for (int i = 0; i < jauAtspetosRaides.Count; i++) {
                     
@@ -90,6 +84,48 @@ namespace Kartuves
             }
         }
 
-        
+        static void TikrinamGalutinesZaidimoSalygas(ref bool zodisAtspetas, ref bool zaidimasZaidziamas, ref List<char> jauAtspetosRaides, ref string spejamasZodis, ref int bandymuSkaicius) {
+            char tikrinamaKiekvienaRaide;
+            bool arVisosRaidesSutampa = true;
+            bool arTesiamZaidimaToliau = true;
+
+            for (int i = 0; i < spejamasZodis.Length; i++) {
+                tikrinamaKiekvienaRaide = spejamasZodis[i];
+                if (tikrinamaKiekvienaRaide != jauAtspetosRaides[i]) {
+                    arVisosRaidesSutampa = false;
+                }
+            }
+
+            if (arVisosRaidesSutampa || bandymuSkaicius == 0) {
+                arTesiamZaidimaToliau = false;
+            }
+
+            zodisAtspetas = arVisosRaidesSutampa;
+            zaidimasZaidziamas = arTesiamZaidimaToliau;
+        }
+
+        static void ZaidimoPabaiga(ref bool zodisAtspetas, List<char> jauAtspetosRaides, ref string spejamasZodis, ref int bandymuSkaicius) {
+            Console.Clear();
+            if (zodisAtspetas) {
+                Console.WriteLine("Tu atspejai zodi!"); 
+                Console.WriteLine("Spejamas zodis buvo " + spejamasZodis);
+                Console.WriteLine("Bandymu liko: " + bandymuSkaicius);
+                return;
+            }
+            else if (!zodisAtspetas) {
+                Console.WriteLine("Tu neatspejai zodzio!");
+                Console.WriteLine("Spejamas zodis buvo " + spejamasZodis);
+                Console.Write("Tavo spejimu rezultatas: ");
+                foreach (char raide in jauAtspetosRaides) {
+                    Console.Write(raide + " ");
+                }
+                Console.WriteLine();//New line
+            }
+
+
+        }
+
+
+
     }
 }
