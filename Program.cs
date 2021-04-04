@@ -25,14 +25,17 @@ namespace Kartuves
 
             //-----Pradines zaidimo salygos-----
 
-            //Nuskaitom faila su zodziais
-            if (!System.IO.File.Exists("zodziai.txt")) {
+            //Nuskaitom faila su zodziais (kelias iki failo nurodytas dviem skirtingais budais)
+            if (!System.IO.File.Exists(@"..\..\..\zodziai.txt")) {
                 Console.WriteLine("KLAIDA: failas \"zodziai.txt\" nerastas!");
                 return;
             }
             else {
-                zodziuSarasas = System.IO.File.ReadAllLines("zodziai.txt");
+                zodziuSarasas = System.IO.File.ReadAllLines("..\\..\\..\\zodziai.txt");
             }//Failo skaitymo pabaiga
+
+            /*'\Kartuves\bin\Debug\netcoreapp3.1\zodziai.txt' is original root dir, where program searches for file if
+             no path is defined: System.IO.File.ReadAllLines("zodziai.txt")*/
 
             spejamasZodis = GenerateRandomWord(zodziuSarasas);
             //Console.WriteLine("Debug: " + spejamasZodis);
@@ -150,7 +153,7 @@ namespace Kartuves
 
         //Cia purvinas kodas, greitai reikejo pakeisti lietuviskas raides, kad nereiktu ju naudoti zaidime...
 
-            string[] zodziuSarasas = System.IO.File.ReadAllLines(@"H:\GITHUB\VisualStudio\CSharp\Kartuves\Kartuves\visasSarasas.txt");
+            string[] zodziuSarasas = System.IO.File.ReadAllLines("..\\..\\..\\visasSarasas.txt");
             char[] blogosRaides = { 'ą', 'č', 'ę', 'ė', 'į', 'š', 'ų', 'ū', 'ž' };
             char[] gerosRaides = { 'a', 'c', 'e', 'e', 'i', 's', 'u', 'u', 'z' };
             string[] naujasZodziuSarasas = new string[zodziuSarasas.Length];
@@ -180,6 +183,7 @@ namespace Kartuves
                 naujasZodziuSarasas[i] = naujasZodis;
             }
 
+            //Sita patikrinti, ar tikrai gerai nurodytas file path, kur issaugoti faila (ar nereikia relative path)
             System.IO.File.WriteAllLines("sutvarkytasSarasas.txt",naujasZodziuSarasas);
 
         }*/
